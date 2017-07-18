@@ -70,6 +70,7 @@ function applyHashesOnParents(nestedJson, parentName) {
         var hash = hashes[valuesAsString] ? hashes[valuesAsString] : Utils.createHashFromString(valuesAsString)
         obj[parentName]['id'] = hash
     })
+    return nestedJson
 }
 
 function findChildren(nestedJson, parentName) {
