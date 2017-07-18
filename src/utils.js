@@ -31,7 +31,7 @@ function arrayContainsObject(array, object) {
     var i = 0
     var found = false
     while (i < array.length && !found) {
-        if (array[i].equals(object)) {
+        if (objectsAreEqual(array[i], object)) {
             found = true
         }
         i += 1
@@ -72,31 +72,31 @@ function copyOwnPropertiesFrom(target, source, deep) {
     return target
 }
 
-Object.prototype.equals = function (objectToCompare) {
-    for (key in this) {
-        switch (typeof (this[key])) {
+function objectsAreEqual(firstObj, objectToCompare) {
+    for (key in firstObj) {
+        switch (typeof (firstObj[key])) {
             case 'object':
-                if (!this[key].equals(objectToCompare[key])) {
+                if (!objectsAreEqual(firstObj[key], (objectToCompare[key]))) {
                     return false
                 }
                 break
 
             case 'function':
                 if (typeof (objectToCompare[key]) == 'undefined' ||
-                    (key != 'equals' && this[key].toString() != objectToCompare[key].toString())) {
+                    (key != 'equals' && firstObj[key].toString() != objectToCompare[key].toString())) {
                     return false;
                 }
                 break
 
             default:
-                if (this[key] != objectToCompare[key]) {
+                if (firstObj[key] != objectToCompare[key]) {
                     return false;
                 }
         }
     }
 
     for (key in objectToCompare) {
-        if (typeof (this[key]) == 'undefined') {
+        if (typeof (firstObj[key]) == 'undefined') {
             return false;
         }
     }
