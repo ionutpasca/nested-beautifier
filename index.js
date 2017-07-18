@@ -46,7 +46,7 @@ function validateInput(nestedJson, parent) {
     if (!nestedJson || !parent) {
         throw new Error(Constants.REQUIRED_DATA)
     }
-    if (!parent.name) {
+    if (typeof parent !== 'string' && !parent.name) {
         throw new Error(Constants.INVALID_PARENT)
     }
 }
