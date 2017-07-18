@@ -2,6 +2,7 @@
 
 module.exports = {
     createHashFromString: createHashFromString,
+    arrayContainsObject: arrayContainsObject,
     objectHasProperty: objectHasProperty,
     validateJson: validateJson,
     copyObject: copyObject
@@ -21,6 +22,21 @@ function createHashFromString(string) {
         hash = hash & hash
     }
     return hash;
+}
+
+function arrayContainsObject(array, object) {
+    if (!array.length) {
+        return false
+    }
+    var i = 0
+    var found = false
+    while (i < array.length && !found) {
+        if (array[i].equals(object)) {
+            found = true
+        }
+        i += 1
+    }
+    return found
 }
 
 function objectHasProperty(object, propertyToFind) {
@@ -54,4 +70,35 @@ function copyOwnPropertiesFrom(target, source, deep) {
         }
     })
     return target
+}
+
+Object.prototype.equals = function (objectToCompare) {
+    for (key in this) {
+        switch (typeof (this[key])) {
+            case 'object':
+                if (!this[key].equals(objectToCompare[key])) {
+                    return false
+                }
+                break
+
+            case 'function':
+                if (typeof (objectToCompare[key]) == 'undefined' ||
+                    (key != 'equals' && this[key].toString() != objectToCompare[key].toString())) {
+                    return false;
+                }
+                break
+
+            default:
+                if (this[key] != objectToCompare[key]) {
+                    return false;
+                }
+        }
+    }
+
+    for (key in objectToCompare) {
+        if (typeof (this[key]) == 'undefined') {
+            return false;
+        }
+    }
+    return true;
 }

@@ -32,7 +32,12 @@ function beautify(nestedJson, parent) {
 
     nestedJson.forEach(function (obj) {
         children.forEach(function (child) {
-            lookup[obj[parent.name][parent.idAttr]][parent.name][child].push(obj[child])
+            var parentForChild = lookup[obj[parent.name][parent.idAttr]][parent.name][child]
+            var childIsAlreadyContained = Utils.arrayContainsObject(parentForChild, obj[child])
+            
+            if (!childIsAlreadyContained) {
+                parentForChild.push(obj[child])
+            }
         })
     })
 
