@@ -73,6 +73,7 @@ function copyOwnPropertiesFrom(target, source, deep) {
 }
 
 function objectsAreEqual(firstObj, objectToCompare) {
+    var key = null
     for (key in firstObj) {
         switch (typeof (firstObj[key])) {
             case 'object':
