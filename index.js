@@ -13,7 +13,9 @@ module.exports = { beautify: beautify }
 function beautify(nestedJson, parent) {
     validateInput(nestedJson, parent)
 
-    parent.name = typeof parent === 'string' ? parent : parent.name
+    if (typeof parent === 'string') {
+        parent = { name: parent }
+    }
     parent.idAttr = parent.idAttr ? parent.idAttr : getParentIdAttr(nestedJson, parent)
     if (!parent.idAttr) {
         nestedJson = applyHashesOnParents(nestedJson, parent.name)
