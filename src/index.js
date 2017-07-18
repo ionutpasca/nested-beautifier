@@ -3,11 +3,6 @@
 var Constants = require('./constants')
 var Utils = require('./utils')
 
-var parent = {
-    idAttr: 'id',
-    name: 'users'
-}
-
 module.exports = { beautify: beautify }
 
 function beautify(nestedJson, parent) {
