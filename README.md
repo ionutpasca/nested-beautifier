@@ -64,7 +64,13 @@ The first one is, obviously, a response got from MySql.
 The second parameter must contain some information about the very first table from MySql that is included in the query.
 
 For example, if we are using <b> 'SELECT [someData] FROM TableA INNER JOIN [someOtherTables]' </b>,
-the second parameter will become an object like the following : <b> { idAttr: [a uniq table column, like id], name: 'TableA' } </b>
+the second parameter will become an object like the following : 
+```js
+{
+  idAttr: [a uniq table column, like id],
+  name: 'TableA
+}
+```
 
 If the parent table doesn't contain a uniq column, then the 'nested-beautifier' will create a uniq
 hash for every diffrent parent data.
