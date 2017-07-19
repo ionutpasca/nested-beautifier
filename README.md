@@ -60,7 +60,8 @@ npm install --save nested-beautifier
 The nested-beautifier takes two parameters (Yeah... 2)
 
 The first one is, obviously, a response got from MySql.
-The second parameter must containd some information about the very first table from MySql that is included in the query.
+
+The second parameter must contain some information about the very first table from MySql that is included in the query.
 
 For example, if we are using <b> 'SELECT [someData] FROM TableA INNER JOIN [someOtherTables]' </b>,
 the second parameter will become an object like the following : { idAttr: [a uniq table column, like id], name: 'TableA'}
