@@ -54,6 +54,9 @@ function validateJson(jsonToValidate) {
 }
 
 function copyObject(orig, deep) {
+    if (orig === null) {
+        return null;
+    }
     var copy = Object.create(Object.getPrototypeOf(orig))
     copyOwnPropertiesFrom(copy, orig, deep)
     return copy
@@ -65,14 +68,25 @@ function copyOwnPropertiesFrom(target, source, deep) {
     sourceProperties.forEach(function (propKey) {
         var desc = Object.getOwnPropertyDescriptor(source, propKey)
         Object.defineProperty(target, propKey, desc)
-        if (deep && typeof desc.value === 'object') {
+        if (deep && typeof desc.value === 'object' && desc.value !== null) {
             target[propKey] = copyObject(source[propKey], deep)
+        } else if (desc.value === null) {
+            target[propKey] = desc.value
         }
+
     })
     return target
 }
 
 function objectsAreEqual(firstObj, objectToCompare) {
+    if (typeof firstObj !== typeof objectToCompare) {
+        return false
+    }
+
+    if (typeof objectToCompare === 'string' || typeof firstObj === 'string') {
+        return firstObj === objectToCompare
+    }
+
     var key = null
     for (key in firstObj) {
         switch (typeof (firstObj[key])) {
