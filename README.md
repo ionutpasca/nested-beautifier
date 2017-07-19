@@ -68,7 +68,7 @@ the second parameter will become an object like the following :
 ```js
 {
   idAttr: [a uniq table column, like id],
-  name: 'TableA
+  name: 'TableA'
 }
 ```
 
