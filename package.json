@@ -1,6 +1,6 @@
 {
   "name": "nested-beautifier",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Small library that beautifies MySql results",
   "main": "index.js",
   "scripts": {
