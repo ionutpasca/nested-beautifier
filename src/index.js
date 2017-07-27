@@ -7,6 +7,10 @@ module.exports = { beautify: beautify }
 
 function beautify(nestedJson, parent) {
     validateInput(nestedJson, parent)
+    var jsonIsValid = Utils.validateJson(nestedJson)
+    if (!jsonIsValid) {
+        throw new Error(Constants.INVALID_JSON)
+    }
 
     if (typeof parent === 'string') {
         parent = { name: parent }
@@ -14,13 +18,10 @@ function beautify(nestedJson, parent) {
     parent.idAttr = parent.idAttr ? parent.idAttr : getParentIdAttr(nestedJson, parent)
     if (!parent.idAttr) {
         nestedJson = applyHashesOnParents(nestedJson, parent.name)
+        parent.idAttr = 'id'
     }
 
     var children = findChildren(nestedJson, parent.name)
-    var jsonIsValid = Utils.validateJson(nestedJson)
-    if (!jsonIsValid) {
-        throw new Error(Constants.INVALID_JSON)
-    }
 
     var lookup = {}
     var jsonCopy = Utils.copyObject(nestedJson, true)
@@ -34,7 +35,7 @@ function beautify(nestedJson, parent) {
         children.forEach(function (child) {
             var parentForChild = lookup[obj[parent.name][parent.idAttr]][parent.name][child]
             var childIsAlreadyContained = Utils.arrayContainsObject(parentForChild, obj[child])
-            
+
             if (!childIsAlreadyContained) {
                 parentForChild.push(obj[child])
             }
@@ -73,6 +74,10 @@ function applyHashesOnParents(nestedJson, parentName) {
             valuesAsString += obj[parentName][key]
         })
         var hash = hashes[valuesAsString] ? hashes[valuesAsString] : Utils.createHashFromString(valuesAsString)
+
+        if (!hashes[valuesAsString]) {
+            hashes[valuesAsString] = hash
+        }
         obj[parentName]['id'] = hash
     })
     return nestedJson
