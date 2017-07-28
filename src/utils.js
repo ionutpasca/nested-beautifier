@@ -68,7 +68,10 @@ function copyOwnPropertiesFrom(target, source, deep) {
     sourceProperties.forEach(function (propKey) {
         var desc = Object.getOwnPropertyDescriptor(source, propKey)
         Object.defineProperty(target, propKey, desc)
-        if (deep && typeof desc.value === 'object' && desc.value !== null && !desc.value instanceof Date) {
+        if(desc.value instanceof Date) {
+          return;
+        }
+        if (deep && typeof desc.value === 'object' && desc.value !== null) {
             target[propKey] = copyObject(source[propKey], deep)
         } else if (desc.value === null) {
             target[propKey] = desc.value
